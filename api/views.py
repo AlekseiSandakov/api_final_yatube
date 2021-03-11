@@ -1,4 +1,4 @@
-from rest_framework import viewsets, filters
+from rest_framework import viewsets, filters, mixins
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.generics import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
@@ -16,7 +16,15 @@ from .permissions import IsAuthorOrReadOnly
 PERMISSION_CLASSES = [IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly]
 
 
+class CreateListGenericViewSet(mixins.CreateModelMixin,
+                               mixins.ListModelMixin,
+                               viewsets.GenericViewSet):
+    """Вьюсет класс для моделей Follow и Group, для урезания операций CRUD."""
+    pass
+
+
 class PostViewSet(viewsets.ModelViewSet):
+    """Вьюсет класс для модели Post, выполняет любые операции CRUD."""
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = PERMISSION_CLASSES
@@ -32,6 +40,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
 
 class CommentViewSet(viewsets.ModelViewSet):
+    """Вьюсет класс для модели Comment, выполняет любые операции CRUD."""
     serializer_class = CommentSerializer
     permission_classes = PERMISSION_CLASSES
 
@@ -48,7 +57,8 @@ class CommentViewSet(viewsets.ModelViewSet):
         return post.comments.all()
 
 
-class FollowViewSet(viewsets.ModelViewSet):
+class FollowViewSet(CreateListGenericViewSet):
+    """Вьюсет класс для модели Follow, выполняет GET И POST операции CRUD."""
     serializer_class = FollowSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, ]
     filterset_fields = ['following', ]
@@ -65,7 +75,8 @@ class FollowViewSet(viewsets.ModelViewSet):
         serializer.save(**params)
 
 
-class GroupViewSet(viewsets.ModelViewSet):
+class GroupViewSet(CreateListGenericViewSet):
+    """Вьюсет класс для модели Group, выполняет GET И POST операции CRUD."""
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = PERMISSION_CLASSES

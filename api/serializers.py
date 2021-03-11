@@ -15,7 +15,7 @@ class PostSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        fields = ('id', 'text', 'author', 'pub_date', 'group')
+        fields = '__all__'
         model = Post
 
 
@@ -26,7 +26,7 @@ class CommentSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        fields = ('id', 'author', 'post', 'text', 'created')
+        fields = '__all__'
         model = Comment
 
 

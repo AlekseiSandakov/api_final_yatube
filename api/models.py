@@ -6,7 +6,7 @@ User = get_user_model()
 
 
 class Post(models.Model):
-    """Модель приложения POSTS, отвечает за создание постов"""
+    """Модель приложения POSTS, отвечает за создание постов."""
     text = models.TextField()
     pub_date = models.DateTimeField(
         'Дата публикации', auto_now_add=True
@@ -25,7 +25,7 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    """Модель приложения POSTS, отвечает за создание комментариев к постам"""
+    """Модель приложения POSTS, отвечает за создание комментариев к постам."""
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='comments'
     )
@@ -39,7 +39,7 @@ class Comment(models.Model):
 
 
 class Follow(models.Model):
-    """Модель приложения POSTS, отвечает за создание подписок к постам"""
+    """Модель приложения POSTS, отвечает за создание подписок к постам."""
     user = models.ForeignKey(
         User,
         verbose_name='Пользователь',
@@ -62,7 +62,7 @@ class Follow(models.Model):
 
 
 class Group(models.Model):
-    """Модель приложения POSTS, отвечает за создание групп из постов"""
+    """Модель приложения POSTS, отвечает за создание групп из постов."""
     title = models.CharField(
         verbose_name='Заголовок',
         max_length=200,
